@@ -14,14 +14,18 @@ else
 
 	# delete cache
 	cd /app/app/tmp/cache; find . -type f -exec rm -f {};
-
+	
 	# generate a random security key for cron
 	CRON_KEY=$(openssl rand -hex 20)
 	sed -i "s#//define('CRON_SECURITY_KEY'.*#define('CRON_SECURITY_KEY', '"$CRON_KEY"');#" /app/app/Config/settings.php
 
 	# install crontabs
-	echo "curl -o /dev/null https://$ERAMBA_HOSTNAME/cron/hourly/$CRON_KEY" >  /etc/periodic/hourly/eramba.sh
-	echo "curl -o /dev/null https://$ERAMBA_HOSTNAME/cron/daily/$CRON_KEY" >  /etc/periodic/daily/eramba.sh
+	echo -e "#!/bin/bash\ncurl -o /dev/null https://$ERAMBA_HOSTNAME/cron/hourly/$CRON_KEY" >  /etc/periodic/hourly/eramba	
+	echo -e "#!/bin/bash\ncurl -o /dev/null https://$ERAMBA_HOSTNAME/cron/daily/$CRON_KEY" >  /etc/periodic/daily/eramba
+	
+	# make them executable
+	chmod + x /etc/periodic/hourly/eramba	
+	chmod + x /etc/periodic/daily/eramba
 
 	(crontab -l 2>/dev/null; echo "1 1 1 1 * curl -o /dev/null https://$ERAMBA_HOSTNAME/cron/yearly/$CRON_KEY") | crontab -
 fi
