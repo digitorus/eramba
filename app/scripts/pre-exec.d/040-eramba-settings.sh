@@ -13,7 +13,7 @@ else
 	fi
 
 	# delete cache
-	cd /app/app/tmp/cache; find . -type f -exec rm -f {};
+	cd /app/app/tmp/cache; find . -type f -exec rm -f {} \;
 
 	# generate a random security key for cron
 	CRON_KEY=$(openssl rand -hex 20)
