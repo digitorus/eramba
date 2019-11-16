@@ -25,7 +25,7 @@ RUN apk add --update --no-cache \
     libcrypto1.0 libssl1.0 \
     ttf-dejavu ttf-droid ttf-freefont ttf-liberation ttf-ubuntu-font-family
 
-ADD https://github.com/madnight/docker-alpine-wkhtmltopdf/blob/master/wkhtmltopdf?raw=true /usr/local/bin/wkhtmltopdf
+# ADD https://github.com/madnight/docker-alpine-wkhtmltopdf/blob/master/wkhtmltopdf?raw=true /usr/local/bin/wkhtmltopdf
 
 # cleanup
 RUN rm -f /var/cache/apk/* 
